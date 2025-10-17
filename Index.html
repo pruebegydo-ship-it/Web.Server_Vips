@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Platoboost VIP Ultra</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary: #6366f1;
+      --secondary: #8b5cf6;
+      --accent: #10b981;
+      --error: #ef4444;
+      --success: #22c55e;
+      --warning: #f59e0b;
+      --bg: #0f172a;
+      --card: #1e293b;
+      --border: #334155;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: radial-gradient(ellipse at top, #1e293b 0%, #0f172a 50%, #020617 100%);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    .background-effects {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+      opacity: 0.6;
+    }
+
+    .grid-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        linear-gradient(rgba(99, 102, 241, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(99, 102, 241, 0.03) 1px, transparent 1px);
+      background-size: 50px 50px;
+      animation: gridMove 20s linear infinite;
+    }
+
+    @keyframes gridMove {
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(50px, 50px); }
+    }
+
+    .floating-orbs {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      background: linear-gradient(45deg, var(--primary), var(--secondary));
+      filter: blur(40px);
+      opacity: 0.1;
+      animation: float 8s ease-in-out infinite;
+    }
+
+    .orb:nth-child(1) {
+      width: 300px;
+      height: 300px;
+      top: -150px;
+      left: -150px;
+      animation-delay: 0s;
+    }
+
+    .orb:nth-child(2) {
+      width: 200px;
+      height: 200px;
+      top: 50%;
+      right: -100px;
+      animation-delay: -4s;
+    }
+
+    .orb:nth-child(3) {
+      width: 250px;
+      height: 250px;
+      bottom: -125px;
+      left: 30%;
+      animation-delay: -2s;
+    }
+
+    .orb:nth-child(4) {
+      width: 180px;
+      height: 180px;
+      top: 20%;
+      left: 10%;
+      background: linear-gradient(45deg, var(--accent), var(--primary));
+      animation-delay: -6s;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      25% { transform: translate(30px, -30px) scale(1.1); }
+      50% { transform: translate(-20px, 20px) scale(0.9); }
+      75% { transform: translate(25px, 35px) scale(1.05); }
+    }
+
+    .particles {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .particle {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: var(--primary);
+      border-radius: 50%;
+      animation: particleFloat 15s linear infinite;
+      opacity: 0.6;
+    }
+
+    @keyframes particleFloat {
+      0% {
+        transform: translateY(100vh) scale(0);
+        opacity: 0;
+      }
+      10% {
+        opacity: 1;
+      }
+      90% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-10vh) scale(1);
+        opacity: 0;
+      }
+    }
+
+    .container {
+      width: 100%;
+      max-width: 420px;
+      background: rgba(30, 41, 59, 0.8);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(51, 65, 85, 0.8);
+      border-radius: 20px;
+      padding: 32px;
+      box-shadow: 
+        0 20px 25px -5px rgba(0, 0, 0, 0.4),
+        0 0 50px rgba(99, 102, 241, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      position: relative;
+      z-index: 1;
+    }
+
+    .container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border-radius: 20px;
+      padding: 1px;
+      background: linear-gradient(135deg, 
+        rgba(99, 102, 241, 0.3) 0%, 
+        rgba(139, 92, 246, 0.2) 25%, 
+        rgba(16, 185, 129, 0.3) 50%, 
+        rgba(139, 92, 246, 0.2) 75%, 
+        rgba(99, 102, 241, 0.3) 100%);
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask-composite: exclude;
+      z-index: -1;
+    }
+
+    .logo {
+      text-align: center;
+      font-size: 28px;
+      font-weight: 600;
+      background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+      background-size: 200% 200%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 32px;
+      animation: gradientShift 3s ease-in-out infinite;
+      text-shadow: 0 0 30px rgba(99, 102, 241, 0.3);
+    }
+
+    @keyframes gradientShift {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    .btn {
+      width: 100%;
+      padding: 14px 18px;
+      border: none;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-bottom: 12px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .btn:hover::before {
+      left: 100%;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), #4f46e5);
+      color: white;
+      box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
+    }
+
+    .btn-secondary {
+      background: linear-gradient(135deg, var(--secondary), #7c3aed);
+      color: white;
+      box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+    }
+
+    .btn-secondary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4);
+    }
+
+    .btn-success {
+      background: linear-gradient(135deg, var(--success), #16a34a);
+      color: white;
+      box-shadow: 0 4px 15px rgba(34, 197, 94, 0.3);
+    }
+
+    .btn-success:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(34, 197, 94, 0.4);
+    }
+
+    .input {
+      width: 100%;
+      padding: 14px 18px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: rgba(15, 23, 42, 0.5);
+      backdrop-filter: blur(10px);
+      color: var(--text);
+      font-size: 14px;
+      margin-bottom: 12px;
+      outline: none;
+      transition: all 0.3s ease;
+    }
+
+    .input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1), 0 0 20px rgba(99, 102, 241, 0.2);
+      background: rgba(15, 23, 42, 0.7);
+    }
+
+    .status {
+      text-align: center;
+      padding: 14px 18px;
+      border-radius: 12px;
+      margin-bottom: 16px;
+      font-size: 14px;
+      font-weight: 500;
+      backdrop-filter: blur(10px);
+    }
+
+    .status-success {
+      background: rgba(34, 197, 94, 0.1);
+      color: var(--success);
+      border: 1px solid rgba(34, 197, 94, 0.3);
+      box-shadow: 0 0 20px rgba(34, 197, 94, 0.1);
+    }
+
+    .status-error {
+      background: rgba(239, 68, 68, 0.1);
+      color: var(--error);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      box-shadow: 0 0 20px rgba(239, 68, 68, 0.1);
+    }
+
+    .status-warning {
+      background: rgba(245, 158, 11, 0.1);
+      color: var(--warning);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      box-shadow: 0 0 20px rgba(245, 158, 11, 0.1);
+    }
+
+    .link {
+      display: block;
+      text-align: center;
+      color: var(--primary);
+      text-decoration: none;
+      padding: 14px 18px;
+      border: 1px solid rgba(99, 102, 241, 0.5);
+      border-radius: 12px;
+      margin-bottom: 12px;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      background: rgba(99, 102, 241, 0.05);
+      backdrop-filter: blur(10px);
+    }
+
+    .link:hover {
+      background: rgba(99, 102, 241, 0.15);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(99, 102, 241, 0.2);
+    }
+
+    .vip-list {
+      display: none;
+      margin-top: 20px;
+    }
+
+    .vip-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 16px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-bottom: 10px;
+      background: rgba(15, 23, 42, 0.3);
+      backdrop-filter: blur(10px);
+    }
+
+    .vip-item:hover {
+      background: rgba(99, 102, 241, 0.1);
+      border-color: var(--primary);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(99, 102, 241, 0.15);
+    }
+
+    .vip-item img {
+      width: 52px;
+      height: 52px;
+      border-radius: 8px;
+      object-fit: cover;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .countdown {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 13px;
+      margin-top: 8px;
+      padding: 8px 12px;
+      background: rgba(148, 163, 184, 0.1);
+      border-radius: 8px;
+      backdrop-filter: blur(10px);
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .loader {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-top: 2px solid var(--primary);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-right: 8px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .admin-btn {
+      position: fixed;
+      top: 25px;
+      right: 25px;
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, var(--accent), #059669);
+      border: none;
+      border-radius: 50%;
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+      box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
+      transition: all 0.3s ease;
+      z-index: 1000;
+      backdrop-filter: blur(10px);
+    }
+
+    .admin-btn:hover {
+      transform: scale(1.1) rotate(360deg);
+      box-shadow: 0 12px 30px rgba(16, 185, 129, 0.4);
+    }
+
+    .admin-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(10px);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .admin-modal.active {
+      display: flex;
+    }
+
+    .admin-content {
+      width: 100%;
+      max-width: 600px;
+      background: rgba(30, 41, 59, 0.95);
+      border: 2px solid rgba(99, 102, 241, 0.5);
+      border-radius: 20px;
+      padding: 30px;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .admin-content h2 {
+      color: var(--accent);
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .admin-vip-card {
+      background: rgba(15, 23, 42, 0.5);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 15px;
+      margin-bottom: 15px;
+    }
+
+    .admin-vip-card img {
+      width: 100%;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+
+    .admin-vip-card h3 {
+      color: var(--primary);
+      font-size: 16px;
+      margin-bottom: 8px;
+    }
+
+    .admin-vip-card p {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 5px;
+      word-break: break-all;
+    }
+
+    .admin-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .btn-small {
+      flex: 1;
+      padding: 8px 12px;
+      font-size: 12px;
+      margin-bottom: 0;
+    }
+
+    .close-modal {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      width: 35px;
+      height: 35px;
+      background: rgba(239, 68, 68, 0.2);
+      border: 2px solid var(--error);
+      border-radius: 50%;
+      color: var(--error);
+      font-size: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+
+    .close-modal:hover {
+      background: rgba(239, 68, 68, 0.4);
+      transform: rotate(90deg);
+    }
+
+    @media (max-width: 768px) {
+      .admin-btn {
+        width: 50px;
+        height: 50px;
+        font-size: 20px;
+        top: 20px;
+        right: 20px;
+      }
+
+      .admin-content {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="background-effects">
+    <div class="grid-bg"></div>
+  </div>
+  
+  <div class="floating-orbs">
+    <div class="orb"></div>
+    <div class="orb"></div>
+    <div class="orb"></div>
+    <div class="orb"></div>
+  </div>
+  
+  <div class="particles" id="particles"></div>
+  
+  <button class="admin-btn" onclick="openAdminModal()" title="Acceso Admin">⚙️</button>
+  
+  <div class="container">
+    <div class="logo">🚀 PLATOBOOST VIP</div>
+    
+    <button id="generateBtn" onclick="generateLink()" class="btn btn-primary">🔗 Generar Enlace Boost</button>
+    <button id="newLinkBtn" onclick="generateNewLink()" class="btn btn-secondary hidden">✨ Generar Nuevo Enlace</button>
+    
+    <a id="boostLink" href="#" target="_blank" class="link hidden">🔗 Página para sacar la Key</a>
+    <a id="fallbackLink" href="#" target="_blank" class="link hidden">🔗 Abrir manualmente (si no se abrió)</a>
+    
+    <div id="status" class="hidden"></div>
+    <div id="countdown" class="countdown hidden"></div>
+    
+    <input type="text" id="keyInput" placeholder="🔑 Pega tu key aquí" class="input" />
+    <button onclick="verifyKey()" class="btn btn-success">✅ Verificar Key</button>
+    
+    <div id="result" class="status hidden">Resultado: -</div>
+    
+    <div id="vipList" class="vip-list"></div>
+  </div>
+
+  <div id="adminModal" class="admin-modal">
+    <div class="admin-content" style="position: relative;">
+      <button class="close-modal" onclick="closeAdminModal()">✕</button>
+      <h2>🔐 Panel de Administración</h2>
+      
+      <div id="loginSection">
+        <input type="password" id="adminPassword" placeholder="🔑 Contraseña de Admin" class="input" />
+        <button onclick="loginAdmin()" class="btn btn-primary">Iniciar Sesión</button>
+      </div>
+
+      <div id="adminSection" class="hidden">
+        <h3 style="color: var(--accent); margin-bottom: 15px;">➕ Agregar Nuevo VIP</h3>
+        <input type="text" id="newVipName" placeholder="Nombre del VIP" class="input" />
+        <input type="url" id="newVipImage" placeholder="URL de la imagen" class="input" />
+        <input type="url" id="newVipLink" placeholder="URL del servidor VIP" class="input" />
+        <button onclick="addVIP()" class="btn btn-success">Agregar VIP</button>
+
+        <hr style="border: 1px solid var(--border); margin: 25px 0;">
+
+        <h3 style="color: var(--accent); margin-bottom: 15px;">📋 VIPs Actuales</h3>
+        <button onclick="loadVIPsAdmin()" class="btn btn-secondary">🔄 Recargar Lista</button>
+        <div id="adminVipList"></div>
+
+        <button onclick="logoutAdmin()" class="btn btn-primary" style="margin-top: 20px;">🚪 Cerrar Sesión</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const service = 1951;
+    const hosts = ["https://api.platoboost.app", "https://api.platoboost.net", "https://api.platoboost.com"];
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyqWAqkbC_BHSu70Rfpzt2Oj-8J0BWyr8H73epkk20TO5Q9HlExx0rw0UJ7QUuTwvD71A/exec";
+    const ADMIN_PASSWORD = "Contraseña202507";
+
+    let currentSession = null;
+    let countdownTimer = null;
+
+    function createParticles() {
+      const particlesContainer = document.getElementById('particles');
+      const particleCount = window.innerWidth > 768 ? 50 : 25;
+      
+      for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.animationDelay = Math.random() * 15 + 's';
+        particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+        particlesContainer.appendChild(particle);
+      }
+    }
+
+    function startCountdown(seconds) {
+      if (countdownTimer) clearInterval(countdownTimer);
+      
+      const countdownEl = document.getElementById('countdown');
+      countdownEl.classList.remove('hidden');
+      
+      const updateCountdown = () => {
+        if (seconds <= 0) {
+          clearInterval(countdownTimer);
+          countdownEl.classList.add('hidden');
+          currentSession = null;
+          resetUI();
+          return;
+        }
+        
+        const minutes = Math.floor(seconds / 60);
+        const secs = seconds % 60;
+        countdownEl.textContent = `⏳ Expira en ${minutes}m ${secs.toString().padStart(2, '0')}s`;
+        seconds--;
+      };
+      
+      updateCountdown();
+      countdownTimer = setInterval(updateCountdown, 1000);
+    }
+
+    function resetUI() {
+      document.getElementById('boostLink').classList.add('hidden');
+      document.getElementById('fallbackLink').classList.add('hidden');
+      document.getElementById('generateBtn').classList.remove('hidden');
+      document.getElementById('newLinkBtn').classList.add('hidden');
+      document.getElementById('status').classList.add('hidden');
+      document.getElementById('countdown').classList.add('hidden');
+    }
+
+    function showStatus(message, type = 'success') {
+      const statusEl = document.getElementById('status');
+      statusEl.className = `status status-${type}`;
+      statusEl.textContent = message;
+      statusEl.classList.remove('hidden');
+    }
+
+    async function tryWithHosts(path, options) {
+      for (const hostname of hosts) {
+        try {
+          const response = await fetch(`${hostname}${path}`, options);
+          if (response.ok) return response;
+        } catch (error) {
+          continue;
+        }
+      }
+      throw new Error("Todos los hosts fallaron");
+    }
+
+    async function generateLink() {
+      showStatus('Generando enlace...', 'warning');
+      document.getElementById('result').classList.add('hidden');
+      document.getElementById('vipList').style.display = 'none';
+
+      const identifier = crypto.randomUUID();
+      const createdAt = Date.now();
+
+      try {
+        const response = await tryWithHosts(`/public/start?t=${createdAt}`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ service, identifier })
+        });
+        
+        const data = await response.json();
+        if (!data.success) throw new Error(data.message);
+
+        currentSession = { identifier, url: data.data.url };
+
+        const popup = window.open(data.data.url, "_blank");
+        if (popup && !popup.closed) {
+          showStatus('Enlace abierto automáticamente', 'success');
+        } else {
+          document.getElementById('fallbackLink').href = data.data.url;
+          document.getElementById('fallbackLink').classList.remove('hidden');
+          showStatus('No se pudo abrir automático, abre manual', 'warning');
+        }
+
+        document.getElementById('boostLink').href = data.data.url;
+        document.getElementById('boostLink').classList.remove('hidden');
+        document.getElementById('generateBtn').classList.add('hidden');
+        document.getElementById('newLinkBtn').classList.remove('hidden');
+        
+        startCountdown(1200);
+
+      } catch (err) {
+        showStatus(`Error: ${err.message}`, 'error');
+      }
+    }
+
+    async function generateNewLink() {
+      currentSession = null;
+      if (countdownTimer) clearInterval(countdownTimer);
+      resetUI();
+      await generateLink();
+    }
+
+    async function verifyKey() {
+      if (!currentSession) {
+        showStatus('Genera un enlace primero', 'error');
+        return;
+      }
+
+      const key = document.getElementById('keyInput').value.trim();
+      if (!key) {
+        showStatus('Ingresa una key primero', 'error');
+        return;
+      }
+
+      const resultEl = document.getElementById('result');
+      resultEl.className = 'status';
+      resultEl.innerHTML = '<span class="loader"></span> Verificando...';
+      resultEl.classList.remove('hidden');
+
+      const nonce = Date.now().toString();
+      const path = `/public/whitelist/${service}?identifier=${currentSession.identifier}&key=${encodeURIComponent(key)}&nonce=${nonce}`;
+
+      try {
+        const response = await tryWithHosts(path, { method: "GET" });
+        const data = await response.json();
+        
+        if (data.success && data.data.valid === true) {
+          resultEl.className = 'status status-success';
+          resultEl.textContent = '✅ Key válida - Acceso concedido';
+          await loadVIPs();
+        } else if (data.success && data.data.valid === false) {
+          resultEl.className = 'status status-warning';
+          resultEl.textContent = '⚠️ Key no válida para esta sesión. Genera un nuevo enlace.';
+        } else {
+          resultEl.className = 'status status-error';
+          resultEl.textContent = '❌ Key inválida o expirada';
+        }
+      } catch (err) {
+        resultEl.className = 'status status-error';
+        resultEl.textContent = `❌ Error: ${err.message}`;
+      }
+    }
+
+    async function loadVIPs() {
+      try {
+        const response = await fetch(`${GOOGLE_SCRIPT_URL}?action=getAll&t=${Date.now()}`);
+        const data = await response.json();
+        
+        if (data.success && data.vips && data.vips.length > 0) {
+          const vipListEl = document.getElementById('vipList');
+          vipListEl.innerHTML = '';
+          
+          data.vips.forEach(vip => {
+            const item = document.createElement('div');
+            item.className = 'vip-item';
+            item.onclick = () => openVIP(vip.link);
+            item.innerHTML = `
+              <img src="${vip.imageUrl}" alt="${vip.name}" onerror="this.src='https://via.placeholder.com/52x52/1e293b/f8fafc?text=VIP'" />
+              <span>${vip.name}</span>
+            `;
+            vipListEl.appendChild(item);
+          });
+          
+          vipListEl.style.display = 'block';
+        }
+      } catch (error) {
+        console.error('Error cargando VIPs:', error);
+      }
+    }
+
+    function openVIP(link) {
+      const popup = window.open(link, "_blank");
+      if (popup && !popup.closed) {
+        showStatus('🎉 VIP abierto automáticamente', 'success');
+      } else {
+        showStatus('❌ No se pudo abrir automático, intenta de nuevo', 'error');
+      }
+    }
+
+    function openAdminModal() {
+      document.getElementById('adminModal').classList.add('active');
+      if (sessionStorage.getItem('adminAuth') === 'true') {
+        document.getElementById('loginSection').classList.add('hidden');
+        document.getElementById('adminSection').classList.remove('hidden');
+        loadVIPsAdmin();
+      }
+    }
+
+    function closeAdminModal() {
+      document.getElementById('adminModal').classList.remove('active');
+    }
+
+    function loginAdmin() {
+      const password = document.getElementById('adminPassword').value;
+      if (password === ADMIN_PASSWORD) {
+        sessionStorage.setItem('adminAuth', 'true');
+        document.getElementById('loginSection').classList.add('hidden');
+        document.getElementById('adminSection').classList.remove('hidden');
+        loadVIPsAdmin();
+      } else {
+        showStatus('❌ Contraseña incorrecta', 'error');
+      }
+    }
+
+    function logoutAdmin() {
+      sessionStorage.removeItem('adminAuth');
+      document.getElementById('loginSection').classList.remove('hidden');
+      document.getElementById('adminSection').classList.add('hidden');
+      document.getElementById('adminPassword').value = '';
+      closeAdminModal();
+    }
+
+    async function loadVIPsAdmin() {
+      try {
+        const response = await fetch(`${GOOGLE_SCRIPT_URL}?action=getAll&t=${Date.now()}`);
+        const data = await response.json();
+        
+        const listEl = document.getElementById('adminVipList');
+        listEl.innerHTML = '';
+        
+        if (data.success && data.vips && data.vips.length > 0) {
+          data.vips.forEach((vip, index) => {
+            const card = document.createElement('div');
+            card.className = 'admin-vip-card';
+            card.innerHTML = `
+              <img src="${vip.imageUrl}" alt="${vip.name}" onerror="this.src='https://via.placeholder.com/300x120/1e293b/f8fafc?text=VIP'" />
+              <h3>${vip.name}</h3>
+              <p><strong>🖼️ Imagen:</strong> ${vip.imageUrl.substring(0, 40)}...</p>
+              <p><strong>🔗 Link:</strong> ${vip.link.substring(0, 40)}...</p>
+              <div class="admin-actions">
+                <button class="btn btn-secondary btn-small" onclick="editVIP(${index}, '${vip.name.replace(/'/g, "\\'")}', '${vip.imageUrl.replace(/'/g, "\\'")}', '${vip.link.replace(/'/g, "\\'")}')">✏️ Editar</button>
+                <button class="btn btn-primary btn-small" style="background: linear-gradient(135deg, #ef4444, #dc2626);" onclick="deleteVIP(${index}, '${vip.name.replace(/'/g, "\\'")}')">🗑️ Eliminar</button>
+              </div>
+            `;
+            listEl.appendChild(card);
+          });
+        } else {
+          listEl.innerHTML = '<p style="text-align: center; color: var(--text-muted); padding: 20px;">No hay VIPs registrados</p>';
+        }
+      } catch (error) {
+        showStatus('❌ Error al cargar VIPs', 'error');
+      }
+    }
+
+    async function addVIP() {
+      const name = document.getElementById('newVipName').value.trim();
+      const imageUrl = document.getElementById('newVipImage').value.trim();
+      const link = document.getElementById('newVipLink').value.trim();
+
+      if (!name || !imageUrl || !link) {
+        showStatus('⚠️ Todos los campos son obligatorios', 'error');
+        return;
+      }
+
+      if (!link.includes('roblox.com')) {
+        showStatus('⚠️ El link debe ser de Roblox', 'error');
+        return;
+      }
+
+      try {        
+        const params = new URLSearchParams({
+          action: 'add',
+          name: encodeURIComponent(name),
+          imageUrl: encodeURIComponent(imageUrl),
+          link: encodeURIComponent(link),
+          t: Date.now()
+        });
+
+        const response = await fetch(`${GOOGLE_SCRIPT_URL}?${params.toString()}`);
+        const data = await response.json();
+
+        if (data.success) {
+          showStatus('✅ VIP agregado correctamente', 'success');
+          document.getElementById('newVipName').value = '';
+          document.getElementById('newVipImage').value = '';
+          document.getElementById('newVipLink').value = '';
+          loadVIPsAdmin();
+        } else {
+          showStatus('❌ Error al agregar VIP: ' + data.message, 'error');
+        }
+      } catch (error) {
+        showStatus('❌ Error de conexión: ' + error.message, 'error');
+      }
+    }
+
+    async function deleteVIP(index, name) {
+      if (!confirm(`¿Estás seguro de eliminar "${name}"?`)) return;
+
+      try {
+        // Usar GET en lugar de POST
+        const params = new URLSearchParams({
+          action: 'delete',
+          index: index,
+          t: Date.now()
+        });
+
+        const response = await fetch(`${GOOGLE_SCRIPT_URL}?${params.toString()}`);
+        const data = await response.json();
+
+        if (data.success) {
+          showStatus('✅ VIP eliminado correctamente', 'success');
+          loadVIPsAdmin();
+        } else {
+          showStatus('❌ Error al eliminar VIP: ' + data.message, 'error');
+        }
+      } catch (error) {
+        showStatus('❌ Error de conexión: ' + error.message, 'error');
+      }
+    }
+
+    function editVIP(index, name, imageUrl, link) {
+      const newName = prompt('Nuevo nombre:', name);
+      if (newName === null) return;
+
+      const newImage = prompt('Nueva URL de imagen:', imageUrl);
+      if (newImage === null) return;
+
+      const newLink = prompt('Nuevo link:', link);
+      if (newLink === null) return;
+
+      updateVIP(index, newName, newImage, newLink);
+    }
+
+    async function updateVIP(index, name, imageUrl, link) {
+      try {
+        const params = new URLSearchParams({
+          action: 'update',
+          index: index,
+          name: encodeURIComponent(name),
+          imageUrl: encodeURIComponent(imageUrl),
+          link: encodeURIComponent(link),
+          t: Date.now()
+        });
+
+        const response = await fetch(`${GOOGLE_SCRIPT_URL}?${params.toString()}`);
+        const data = await response.json();
+
+        if (data.success) {
+          showStatus('✅ VIP actualizado correctamente', 'success');
+          loadVIPsAdmin();
+        } else {
+          showStatus('❌ Error al actualizar VIP: ' + data.message, 'error');
+        }
+      } catch (error) {
+        showStatus('❌ Error de conexión: ' + error.message, 'error');
+      }
+    }
+
+    window.addEventListener('load', () => {
+      createParticles();
+    });
+
+    window.addEventListener('resize', () => {
+      const particlesContainer = document.getElementById('particles');
+      particlesContainer.innerHTML = '';
+      createParticles();
+    });
+  </script>
+</body>
+</html>
