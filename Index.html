@@ -897,7 +897,7 @@
         return;
       }
 
-      try {        
+      try {
         const params = new URLSearchParams({
           action: 'add',
           name: encodeURIComponent(name),
@@ -927,7 +927,6 @@
       if (!confirm(`¿Estás seguro de eliminar "${name}"?`)) return;
 
       try {
-        // Usar GET en lugar de POST
         const params = new URLSearchParams({
           action: 'delete',
           index: index,
