@@ -620,10 +620,102 @@
     const service = 1951;
     const hosts = ["https://api.platoboost.app", "https://api.platoboost.net", "https://api.platoboost.com"];
     const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyqWAqkbC_BHSu70Rfpzt2Oj-8J0BWyr8H73epkk20TO5Q9HlExx0rw0UJ7QUuTwvD71A/exec";
-    const ADMIN_PASSWORD = "Contraseña202507";
+    const ADMIN_PASSWORD = "Fer22";
 
     let currentSession = null;
     let countdownTimer = null;
+    let db = null;
+
+    function initDB() {
+      return new Promise((resolve, reject) => {
+        const request = indexedDB.open('PlatoboostDB', 1);
+        
+        request.onerror = () => reject(request.error);
+        request.onsuccess = () => {
+          db = request.result;
+          resolve(db);
+        };
+        
+        request.onupgradeneeded = (event) => {
+          const database = event.target.result;
+          if (!database.objectStoreNames.contains('sessions')) {
+            database.createObjectStore('sessions', { keyPath: 'id' });
+          }
+        };
+      });
+    }
+
+    async function saveSession(sessionData) {
+      if (!db) await initDB();
+      return new Promise((resolve, reject) => {
+        const transaction = db.transaction(['sessions'], 'readwrite');
+        const store = transaction.objectStore('sessions');
+        const data = {
+          id: 'current',
+          ...sessionData,
+          timestamp: Date.now()
+        };
+        const request = store.put(data);
+        request.onsuccess = () => resolve();
+        request.onerror = () => reject(request.error);
+      });
+    }
+
+    async function getSession() {
+      if (!db) await initDB();
+      return new Promise((resolve, reject) => {
+        const transaction = db.transaction(['sessions'], 'readonly');
+        const store = transaction.objectStore('sessions');
+        const request = store.get('current');
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+      });
+    }
+
+    async function deleteSession() {
+      if (!db) await initDB();
+      return new Promise((resolve, reject) => {
+        const transaction = db.transaction(['sessions'], 'readwrite');
+        const store = transaction.objectStore('sessions');
+        const request = store.delete('current');
+        request.onsuccess = () => resolve();
+        request.onerror = () => reject(request.error);
+      });
+    }
+
+    async function loadStoredSession() {
+      try {
+        const stored = await getSession();
+        if (!stored) return false;
+
+        const elapsed = Math.floor((Date.now() - stored.timestamp) / 1000);
+        const remaining = 1200 - elapsed;
+
+        if (remaining <= 0) {
+          await deleteSession();
+          return false;
+        }
+
+        currentSession = {
+          identifier: stored.identifier,
+          url: stored.url
+        };
+
+        document.getElementById('boostLink').href = stored.url;
+        document.getElementById('boostLink').classList.remove('hidden');
+        document.getElementById('fallbackLink').href = stored.url;
+        document.getElementById('fallbackLink').classList.remove('hidden');
+        document.getElementById('generateBtn').classList.add('hidden');
+        document.getElementById('newLinkBtn').classList.remove('hidden');
+
+        startCountdown(remaining);
+        showStatus('Sesión restaurada correctamente', 'success');
+        return true;
+      } catch (error) {
+        console.error('Error loading session:', error);
+        return false;
+      }
+    }
 
     function createParticles() {
       const particlesContainer = document.getElementById('particles');
@@ -650,6 +742,7 @@
           clearInterval(countdownTimer);
           countdownEl.classList.add('hidden');
           currentSession = null;
+          deleteSession();
           resetUI();
           return;
         }
@@ -712,6 +805,11 @@
 
         currentSession = { identifier, url: data.data.url };
 
+        await saveSession({
+          identifier: identifier,
+          url: data.data.url
+        });
+
         const popup = window.open(data.data.url, "_blank");
         if (popup && !popup.closed) {
           showStatus('Enlace abierto automáticamente', 'success');
@@ -736,6 +834,7 @@
     async function generateNewLink() {
       currentSession = null;
       if (countdownTimer) clearInterval(countdownTimer);
+      await deleteSession();
       resetUI();
       await generateLink();
     }
@@ -985,8 +1084,10 @@
       }
     }
 
-    window.addEventListener('load', () => {
+    window.addEventListener('load', async () => {
+      await initDB();
       createParticles();
+      await loadStoredSession();
     });
 
     window.addEventListener('resize', () => {
